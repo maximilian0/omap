@@ -9,11 +9,17 @@ class ObjectType extends Type {
 
         return !CollectionType.canHandle(object) &&
                 !EnumType.canHandle(object) &&
+                !DateType.canHandle(object) &&
                 !PrimitiveType.canHandle(object)
     }
 
     Object value(Object object, OMap oMap) {
 
         return oMap.toMap(object)
+    }
+
+    Object read(Map.Entry<String, Object> entry, Class clazz, Class type, OMap omap) {
+
+        return entry.value
     }
 }

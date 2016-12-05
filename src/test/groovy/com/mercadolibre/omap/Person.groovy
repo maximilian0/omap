@@ -16,6 +16,8 @@ class Person {
     private String maritalStatus
     @Exclude
     private Set<Address> addresses
+    @Exclude
+    private Date birth
 
     static mapFields = ['document', 'age']
     static mapGetters = ['name']
@@ -44,5 +46,9 @@ class Person {
 
     Set<Address> getAddresses() {
         return addresses
+    }
+
+    Date getBirth() {
+        return birth
     }
 }

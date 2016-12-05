@@ -6,11 +6,16 @@ class EnumType extends Type {
 
     static boolean canHandle(Object object) {
 
-        return object instanceof Enum
+        return object instanceof Enum || object in Enum
     }
 
     Object value(Object object, OMap oMap) {
 
         return (object as Enum).name()
+    }
+
+    Object read(Map.Entry<String, Object> entry, Class clazz, Class type, OMap omap) {
+
+        return clazz.valueOf(entry.value)
     }
 }

@@ -5,7 +5,7 @@ package com.mercadolibre.omap
  */
 abstract class Type {
 
-    static List<Class> subclasses = [CollectionType, EnumType, ObjectType, PrimitiveType]
+    static List<Class> subclasses = [CollectionType, EnumType, DateType, PrimitiveType, ObjectType]
 
     static Type forObject(Object object) {
 
@@ -15,4 +15,6 @@ abstract class Type {
     }
 
     abstract Object value(Object object, OMap omap)
+
+    abstract Object read(Map.Entry<String, Object> entry, Class clazz, Class type, OMap omap)
 }

@@ -1,5 +1,7 @@
 package com.mercadolibre.omap
 
+import java.text.SimpleDateFormat
+
 /**
  * Created by mtaborda on 11-Nov-2016.
  *
@@ -12,15 +14,19 @@ package com.mercadolibre.omap
  */
 class OMapBuilder {
 
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss"
+
     Map<Class, AdapterStrategy> adapters
     boolean adaptNulls
     boolean keysToCamelCase
+    SimpleDateFormat dateFormatter
 
     OMapBuilder() {
 
         this.adapters = [:]
         this.adaptNulls = false
         this.keysToCamelCase = true
+        this.dateFormatter = new SimpleDateFormat(DATE_FORMAT)
     }
 
     OMapBuilder registerAdapter(Class aClass, AdapterStrategy adapter) {
@@ -53,8 +59,15 @@ class OMapBuilder {
         return this
     }
 
+    OMapBuilder formatDate(String pattern) {
+
+        this.dateFormatter = new SimpleDateFormat(pattern)
+        return this
+    }
+
     OMap build() {
 
-        return new OMap(adapters: adapters, adaptNulls: adaptNulls, keysToCamelCase: keysToCamelCase)
+        return new OMap(adapters: adapters, adaptNulls: adaptNulls, keysToCamelCase: keysToCamelCase, dateFormatter:
+                dateFormatter)
     }
 }

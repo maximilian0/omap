@@ -1,9 +1,18 @@
 package com.mercadolibre.omap
 
+import java.text.SimpleDateFormat
+
 /**
  * Created by mtaborda on 11-Nov-2016.
  */
 class OMapTest extends GroovyTestCase {
+
+    SimpleDateFormat dateFormatter
+
+    void setUp() {
+
+        dateFormatter = new SimpleDateFormat("yyyy-MM-dd")
+    }
 
     void testToMapDefault() {
 
@@ -24,13 +33,14 @@ class OMapTest extends GroovyTestCase {
                 .build()
 
         Map<String, Object> result = omap.toMap(person)
-        assert result.size() == 6
+        assert result.size() == 7
         assert result["name"] == "charly"
         assert result["age"] == 65
         assert result["document"] == null
         assert result["sex"] == null
         assert result["maritalStatus"] == null
         assert result["addresses"] == null
+        assert result["birth"] == null
     }
 
     void testToMapDefaultWithEnum() {
@@ -148,6 +158,20 @@ class OMapTest extends GroovyTestCase {
         assertNull(result["addresses"])
     }
 
+    void testToMapWithDate() {
+
+        Person person = new Person(name: 'charly', age: 65, birth: dateFormatter.parse("1951-10-23"))
+        OMap omap = new OMapBuilder()
+                .formatDate("yyyy-MM-dd")
+                .build()
+
+        Map<String, Object> result = omap.toMap(person)
+        assert result.size() == 3
+        assert result["name"] == "charly"
+        assert result["age"] == 65
+        assert result["birth"] == "1951-10-23"
+    }
+
     void testToMapList() {
 
         List<Person> people = [new Person(name: 'charly', age: 65)]
@@ -234,6 +258,25 @@ class OMapTest extends GroovyTestCase {
         assert person.addresses[0].number == 666
         assert person.addresses[1].street == 'donde el viento pega la vuelta'
         assert person.addresses[1].number == 18
+    }
+
+    void testFromMapWithDate() {
+
+        Date expectedBirth = dateFormatter.parse("1951-10-23")
+        Map<String, Object> map = [
+                "name" : "charly",
+                "age"  : 65,
+                "birth": "1951-10-23"
+        ]
+
+        OMap omap = new OMapBuilder()
+                .formatDate("yyyy-MM-dd")
+                .build()
+
+        Person person = omap.fromMap(map, Person)
+        assert person.name == "charly"
+        assert person.age == 65
+        assert person.birth == expectedBirth
     }
 
     void testFromMapList() {

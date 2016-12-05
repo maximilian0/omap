@@ -2,6 +2,8 @@ package com.mercadolibre.omap
 
 import groovy.transform.PackageScope
 
+import java.text.SimpleDateFormat
+
 /**
  * Created by mtaborda on 11-Nov-2016.
  *
@@ -21,6 +23,12 @@ class OMap {
     Map<Class, AdapterStrategy> adapters = [:]
     boolean adaptNulls = false
     boolean keysToCamelCase = true
+    SimpleDateFormat dateFormatter
+
+    protected OMap() {
+
+        super()
+    }
 
     Map<String, Object> toMap(Object object) {
 
@@ -62,11 +70,8 @@ class OMap {
         map.inject(args) { Map<String, Object> m, Map.Entry<String, Object> entry ->
             String key = this.keyToCamelCase(entry.key as String)
             Class clazz = type.getDeclaredField(key).getType()
-            Object value = (entry.value in Collection) ?
-                    this.collectionFromMap(entry, type) :
-                    clazz in Enum ?
-                            clazz.valueOf(entry.value) :
-                            entry.value
+            Type t = Type.forObject(clazz)
+            Object value = t.read(entry, clazz, type, this)
             m.put(this.keyToCamelCase(entry.key as String), value)
             m
         }

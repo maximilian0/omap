@@ -16,4 +16,9 @@ class PrimitiveType extends Type {
 
         return object
     }
+
+    Object read(Map.Entry<String, Object> entry, Class clazz, Class type, OMap omap) {
+
+        return entry.value
+    }
 }
