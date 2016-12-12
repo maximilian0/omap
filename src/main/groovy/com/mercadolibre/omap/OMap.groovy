@@ -85,18 +85,6 @@ class OMap {
                 key.replaceAll(/([A-Z])/, /_$1/).toLowerCase().replaceAll(/^_/, '')
     }
 
-    private List collectionFromMap(Map.Entry<String, Object> entry, type) {
-
-        Class t = type.getDeclaredField(entry.key).getGenericType().getActualTypeArguments()[0] as Class
-        List list = []
-        List values = entry.value as List
-        values.inject(list) { List l, Map<String, Object> i ->
-            l.add(this.fromMap(i, t))
-            l
-        }
-        return list
-    }
-
     @PackageScope
     void intoMap(Object object, Map<String, Object> result, String key) {
 
