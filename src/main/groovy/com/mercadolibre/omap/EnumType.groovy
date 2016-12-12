@@ -18,4 +18,9 @@ class EnumType extends Type {
 
         return clazz.valueOf(entry.value)
     }
+
+    void setValue(Object instance, String key, Object value) {
+
+        this.defaultSetValue(instance, key, value)
+    }
 }

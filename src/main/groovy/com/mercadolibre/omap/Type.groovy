@@ -17,4 +17,11 @@ abstract class Type {
     abstract Object value(Object object, OMap omap)
 
     abstract Object read(Map.Entry<String, Object> entry, Class clazz, Class type, OMap omap)
+
+    abstract void setValue(Object instance, String key, Object value)
+
+    void defaultSetValue(Object instance, String key, Object value) {
+
+        instance[key] = value
+    }
 }

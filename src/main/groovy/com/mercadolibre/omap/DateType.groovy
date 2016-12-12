@@ -19,4 +19,9 @@ class DateType extends Type {
 
         return omap.dateFormatter.parse(entry.value as String)
     }
+
+    void setValue(Object instance, String key, Object value) {
+
+        this.defaultSetValue(instance, key, value)
+    }
 }

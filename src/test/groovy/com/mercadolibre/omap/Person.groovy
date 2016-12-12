@@ -51,4 +51,10 @@ class Person {
     Date getBirth() {
         return birth
     }
+
+    void addToAddresses(Address address) {
+
+        if (this.addresses == null) this.addresses = new LinkedHashSet<>()
+        this.addresses.add(address)
+    }
 }

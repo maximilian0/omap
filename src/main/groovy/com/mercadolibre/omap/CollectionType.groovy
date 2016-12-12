@@ -1,5 +1,4 @@
 package com.mercadolibre.omap
-
 /**
  * Created by mtaborda on 29-Nov-2016.
  */
@@ -24,6 +23,14 @@ class CollectionType extends Type {
     Object read(Map.Entry<String, Object> entry, Class clazz, Class type, OMap omap) {
 
         return this.collectionFromMap(entry, type, omap)
+    }
+
+    void setValue(Object instance, String key, Object value) {
+
+        String setter = "addTo${key.capitalize()}"
+        if (instance.respondsTo(setter)) {
+            value.each { it -> instance."$setter"(it) }
+        } else instance[key] = value
     }
 
     private List collectionFromMap(Map.Entry<String, Object> entry, Class type, OMap omap) {

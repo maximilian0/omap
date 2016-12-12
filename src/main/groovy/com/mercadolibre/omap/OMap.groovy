@@ -51,7 +51,9 @@ class OMap {
 
     def <T> T fromMap(Map<String, Object> map, Class<T> type) {
 
-        return type.newInstance(this.mapToConstructorArguments(map, type))
+        T instance = type.newInstance()
+        this.initializeObject(instance, this.mapToConstructorArguments(map, type))
+        return instance
     }
 
     def <T> List<T> fromMapList(List<Map<String, Object>> list, Class<T> type) {
@@ -76,6 +78,15 @@ class OMap {
             m
         }
         return args
+    }
+
+    private void initializeObject(Object instance, LinkedHashMap<String, Object> args) {
+
+        args.each { Map.Entry<String, Object> entry ->
+            Class clazz = instance.getClass().getDeclaredField(entry.key).getType()
+            Type t = Type.forObject(clazz)
+            t.setValue(instance, entry.key, entry.value)
+        }
     }
 
     private String keyToCamelCase(String key) {

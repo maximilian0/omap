@@ -21,4 +21,9 @@ class PrimitiveType extends Type {
 
         return entry.value
     }
+
+    void setValue(Object instance, String key, Object value) {
+
+        this.defaultSetValue(instance, key, value)
+    }
 }
