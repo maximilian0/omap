@@ -20,7 +20,7 @@ class ObjectType extends Type {
 
     Object read(Map.Entry<String, Object> entry, Class clazz, Class type, OMap omap) {
 
-        return entry.value
+        return omap.fromMap(entry.value as Map, clazz)
     }
 
     void setValue(Object instance, String key, Object value) {

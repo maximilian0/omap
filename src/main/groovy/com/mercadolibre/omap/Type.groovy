@@ -5,12 +5,12 @@ package com.mercadolibre.omap
  */
 abstract class Type {
 
-    static List<Class> subclasses = [CollectionType, EnumType, DateType, PrimitiveType, ObjectType]
+    static List<Class> subclasses = [CollectionType, EnumType, DateType, PrimitiveType]
 
     static Type forObject(Object object) {
 
         Class handler = subclasses.find { it -> it.canHandle(object) }
-        if (handler == null) throw new Error("There's no type to handle $object")
+        if (handler == null) handler = ObjectType
         return (Type) handler.newInstance()
     }
 

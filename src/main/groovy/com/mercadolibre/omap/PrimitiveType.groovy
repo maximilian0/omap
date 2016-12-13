@@ -7,9 +7,11 @@ class PrimitiveType extends Type {
 
     static boolean canHandle(Object object) {
 
-        return object instanceof Number || object instanceof String ||
-                object instanceof Character || object instanceof Boolean ||
-                object instanceof Date || object == null
+        return object instanceof Number || object in Number ||
+                object instanceof String || object in String ||
+                object instanceof Character || object in Character ||
+                object instanceof Boolean || object in Boolean ||
+                object == null || (object.respondsTo("isPrimitive") && object.isPrimitive())
     }
 
     Object value(Object object, OMap oMap) {
